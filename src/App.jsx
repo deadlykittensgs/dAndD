@@ -6,13 +6,13 @@ import Nopage from './Pages/Nopage'
 import CharecterSelection from './Pages/CharecterSelection'
 import Character from './Pages/Character'
 import CharacterCreation from './Pages/CararacterCreation'
+import PlayGame from './Pages/PlayGame'
 
 
 
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div>
@@ -23,6 +23,7 @@ function App() {
       <Route path='CharecterSelection' element={<CharecterSelection/>}/>
       <Route path='Character' element={<Character/>}/>
       <Route path='CharacterCreation' element={<CharacterCreation/>}/>
+      <Route path='PlayGame' element={<PlayGame/>}/>
       <Route path='*' element={<Nopage/>}/>
       
     

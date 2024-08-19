@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function CreatedChar() {
   return (
-    <div className='flex justify-between w-full h-[100px] bg-sky-300 border border-1 border-black border-t-transparent border-r-transparent border-l-transparent '>
+    <a href='playGame' className='flex justify-between w-full h-[100px] bg-sky-300 border border-1 border-black border-t-transparent border-r-transparent border-l-transparent '>
         
         <div className='flex items-center text-[.8rem]'>
         <div className='flex bg-slate-600 h-[50px] w-[50px] justify-center items-center m-3' >image</div>
@@ -23,6 +23,6 @@ export default function CreatedChar() {
         </div>
       
 
-    </div>
+    </a>
   )
 }

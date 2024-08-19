@@ -31,7 +31,6 @@ export default function CharacterCreation() {
  
 const addInfoToArray = (e) => {
     e.preventDefault()
-    console.log("clicked")
     let array = []
     array.push(name,level,race,subRace,traits,proficiencies,cantrips,abilities,classType,lvlOneAbilities,background,Langues,startingEquipment)
 setCreatureData(array)
