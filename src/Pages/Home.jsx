@@ -15,7 +15,7 @@ export default function Home() {
     {/* box 1  */}
     <div className='bg-slate-300 flex w-[350px] h-[200px]' >
         <div className='bg-slate-500 flex items-center justify-center w-[170px] h-full' >
-           <p>Play Game</p>
+           <a href='CharecterSelection' >Play Game</a>
             </div>
         <div className='flex flex-col items-center justify-evenly w-full'>
             <h3 className='font-bold text-[1.5rem]' >Sign In</h3>

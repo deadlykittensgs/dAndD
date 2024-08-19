@@ -5,9 +5,8 @@ import Home from './Pages/Home'
 import Nopage from './Pages/Nopage'
 import CharecterSelection from './Pages/CharecterSelection'
 import Character from './Pages/Character'
-import Cls from './Pages/Cls'
-import Spells from './Pages/Spells'
-import Races from './Pages/Races'
+import CharacterCreation from './Pages/CararacterCreation'
+
 
 
 
@@ -23,9 +22,7 @@ function App() {
       <Route path='/home' element={<Home/>}/>
       <Route path='CharecterSelection' element={<CharecterSelection/>}/>
       <Route path='Character' element={<Character/>}/>
-      <Route path='Races' element={<Races/>}/>
-      <Route path='Spells' element={<Spells/>}/>
-      <Route path='Cls' element={<Cls/>}/>
+      <Route path='CharacterCreation' element={<CharacterCreation/>}/>
       <Route path='*' element={<Nopage/>}/>
       
     
