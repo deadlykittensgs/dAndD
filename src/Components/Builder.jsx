@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Header from '../Components/Header'
 
-
-export default function CharacterCreation() {
+export default function Builder({ build, setBuild, addCharacter } ) {
  
     const [name, setName] = useState('');
     const [level, setLevel] = useState('');
@@ -43,7 +41,7 @@ setCreatureData(array)
  
     return (
     <form onSubmit={addInfoToArray} className=' flex flex-col h-screen w-screen bg-slate-500'>
-    <Header/>
+
 <div className='flex flex-col'>
     {/* box 1 */}
 <div>
@@ -127,7 +125,8 @@ setCreatureData(array)
 <div>currency</div>
 
 
-<button className='bg-sky-300 w-20 rounded p1'>create</button>
+ <button className='bg-sky-300 w-20 rounded p1' onClick={() => {addCharacter(name,level, race, classType)}} >create</button> <br />
+ <button className='bg-sky-300 w-20 rounded p1'  onClick={() => {setBuild(true)}} > Finish</button>
 
 
 
