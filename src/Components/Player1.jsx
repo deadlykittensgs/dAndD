@@ -1,6 +1,13 @@
 import React from 'react'
 
 export default function Player1({name, lvl, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, orientation, gold}) {
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   return (
     <div className='w-[250px] h-[300px] bg-sky-300 m-1'> 
 
