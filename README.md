@@ -1,1 +1,1 @@
-{name, lvl, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, playerName, gold}
+live -https://calm-pastelito-58db04.netlify.app
