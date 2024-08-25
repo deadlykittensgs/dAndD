@@ -16,7 +16,7 @@ const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTot
  <div className='flex justify-center items-center text-center bg-white w-full h-[50px]'>
     <h1 className='text-[1.3rem] italic ' >{name}</h1>
  </div>
-        <div className='bg-slate-200 w-full flex flex-col'>
+        <div className='bg-slate-200 w-full flex flex-col px-2 py-2'>
             <div className='flex'>
        <div className='flex flex-col flex-1'><div className='flex-1'>{classType}</div> <div className='flex-1 border border-black border-l-transparent border-r-transparent border-b-transparent italic text-[.8rem]'>Class</div> <div><div className='flex-1'>{race}</div> <div className='flex-1 border border-black border-l-transparent border-r-transparent border-b-transparent italic text-[.8rem]'>Race</div></div> </div>
        <div className=' flex flex-col flex-1' > <div className='flex-1'>{lvl}</div> <div className='flex-1 border border-black border-l-transparent border-r-transparent border-b-transparent italic text-[.8rem] '>lvl</div> <div><div className='flex-1'>medium</div> <div className='flex-1 border border-black border-l-transparent border-r-transparent border-b-transparent italic text-[.8rem]'>Size</div></div> </div>
@@ -108,6 +108,14 @@ const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTot
 </div>
 
 
+<div className='justify-center flex  flex-col bg-sky-200/80'>
+<div className='flex bg-slate-400 justify-center'><h3>Actions</h3></div>
+<div>hit</div>
+<div>run</div>
+<div>do things</div>
+</div>
+
+
 
 <div className='bg-slate-300/80 flex flex-col'>
  <div className='justify-center flex'>
@@ -157,6 +165,21 @@ const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTot
 <div className='flex justify-between p-2'><p>Mask Of The Wild</p> <button className='bg-slate-300 rounded p-1'>Info</button></div>
 </div>
 
+<div className='justify-center flex  flex-col bg-sky-200/80'>
+<div className='flex bg-slate-400 justify-center'><h3>Equipment</h3></div>
+    <p>Things</p>
+    <p>Things 2</p>
+</div>
+
+<div className='flex bg-slate-400 justify-center'><h3>Notes</h3></div>
+<div>
+<p>note one</p>
+<p>note two</p>
+<p>note three</p>
+<p>note Four</p>
+<p>note Five</p>
+
+</div>
 </div>
 
 
