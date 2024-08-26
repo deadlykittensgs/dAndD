@@ -11,7 +11,7 @@ import Player2ex from '../Components/Player2ex'
 
 export default function PlayGame() {
  // page 
-    const [chooseView, setChooseView] = useState("p1")
+    const [chooseView, setChooseView] = useState("p2")
 // player 1 
     const [name, setName] = useState("player 1")
     const [lvl, setLvl] = useState("0")
@@ -47,8 +47,33 @@ export default function PlayGame() {
         intTotal: "+1",
         wisTotal: "+1", 
         chaTotal: "+1",
+        strTotalNumber: 10,
+        dexTotalNumber: 15,
+        conTotalNumber: 14,
+        intTotalNumber: 16,
+        wisTotalNumber: 12, 
+        chaTotalNumber: 8,
         gold: gold,
-        playerName: "yourName"
+        playerName: "yourName",
+        background: "folk Hero",
+        size: "medium",
+        alignment: "NG",
+        initiative: "+3",
+        deathSaves: 0,
+        actions: [{id: 100, action: "Swing Sword", description: "Swing a sword for x dmg"},{id: 200, action: "Swing ax", description: "Swing a ax for x dmg"},{id: 300, action: "Shoot Bow", description: "Shoot bow for x dmg"}],
+        savingThrows:[0,0,0,0,0,0],
+        SelectedSavingThrows:["yes","no","no","no","no","no"],
+        skills:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        selectedSkills:["yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no"],
+        toolProficiencie: ["tool 1","tool 2", "tool 3"],
+        abilities: [{id: 400, action: "dark Vision", description: "see in the dark 60 ft"},{id: 500, action: "trance", description: "sleep shorter"},{id: 600, action: "Fay Ancestory", description: "Resist charms"}],
+        inventory: ["thing 1","thing 2", "thing 3"],
+        notes: ["note 1","note 2", "note 3"],
+        languages: ["language 1","language 2", "language 3"],
+    
+
+
+
     }
     const PlayerThree = {
         name:'Player 3',
@@ -151,18 +176,22 @@ function changeView(props) {
   return (
 
     
-    <div className=' flex flex-col h-screen w-screen bg-slate-700 bg'>
+    <div className=' flex flex-col  h-screen w-screen bg'>
         <Header/>
         <div className='w-full min-h-[40px] bg-red-300 flex   justify-evenly'>
-            <button onClick={() => {changeView("dm")}} >DM</button>
-            <button onClick={() => {changeView("p1")}} >Player 1</button>
-            <button onClick={() => {changeView("p2")}} >Player 2</button>
-            <button onClick={() => {playerNumber()}} > add</button>
+            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("dm")}} >DM</button>
+            <button className='bg-slate-200 rounded-full p-2'onClick={() => {changeView("p1")}} >P1</button>
+            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p2")}} >P2</button>
+            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p3")}} >P3</button>
+            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p4")}} >P4</button>
+            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p5")}} >P5</button>
+            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p6")}} >P6</button>
+        
           
         </div>
 
         {/* body  */}
-<div className='flex overflow-auto justify-evenly flex-wrap h-full items-center' >
+<div className='flex overflow-auto justify-center flex-wrap h-full items-center' >
 
 {/* dm view  */}
     {chooseView === "dm" ? <div className='flex overflow-auto justify-evenly flex-wrap h-full items-center' > 
@@ -176,7 +205,11 @@ function changeView(props) {
 
 {/* player view  */}
 
-{chooseView === "p1" ? <Player2ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
+{chooseView === "p2" ? <Player2ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
+{chooseView === "p3" ? <Player3ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
+{chooseView === "p4" ? <Player4ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
+{chooseView === "p5" ? <Player5ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
+{chooseView === "p6" ? <Player6ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
 </div>
     </div>
   )
