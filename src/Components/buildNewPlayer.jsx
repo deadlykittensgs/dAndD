@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 
 
 
-export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
+export default function BuildNewPlayer({playerObjectState, setPlayerObjectState, pushToDB, build, setBuild }) {
 
 
-    const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, gold, playerName,background, size, alignment, initiative, deathSaves, actions, savingThrows, skills, toolProficiencie, abilities, inventory, notes, languages, strTotalNumber, dexTotalNumber, conTotalNumber, intTotalNumber, wisTotalNumber, chaTotalNumber,  } = playerTwoData
+    const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, gold, playerName,background, size, alignment, initiative, deathSaves, actions, savingThrows, skills, toolProficiencie, abilities, inventory, notes, languages, strTotalNumber, dexTotalNumber, conTotalNumber, intTotalNumber, wisTotalNumber, chaTotalNumber, } = playerObjectState
 
     const classOptions = ["Barbarian","Bard","Cleric","Druid", "Fighter","Monk","Paladin","Ranger","Rogue","Sorcerer","Warlock","Wizard","Artificer", "Blood Hunter","-Other-"];
     const levelOptions = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
@@ -22,6 +22,9 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
      
     const addInfoToArray = (e) => {
         e.preventDefault()
+        pushToDB(playerObjectState)
+        setPlayerObjectState([])
+        setBuild(!build)
         
     }
     
@@ -31,7 +34,7 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
 
 
   return (
-    <form onSubmit={addInfoToArray} className=' flex flex-col h-fit w-[100%] bg-slate-500'>
+    <form onSubmit={addInfoToArray} className=' flex flex-col h-fit overflow-auto w-[100%] bg-slate-500 mb-[40px]'>
 
 <div className='flex flex-col p-4'>
     {/* box 1 */}
@@ -41,17 +44,17 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
 
 <div>
     <p >Your Real Name</p>
-    <input type="text"  value={playerName} onChange={(e) => setPlayerTwoData({...playerTwoData, playerName: e.target.value})}/>
+    <input type="text"  value={playerName} onChange={(e) => setPlayerObjectState({...playerObjectState, playerName: e.target.value})}/>
 </div>
 
 <div>
     <p>Name</p>
-    <input  type="text"  value={name} onChange={(e) => setPlayerTwoData({...playerTwoData, name: e.target.value})}/>
+    <input  type="text"  value={name} onChange={(e) => setPlayerObjectState({...playerObjectState, name: e.target.value})}/>
 </div>
 
 <div>
     <p>Class</p>
-    <select id="select" value={classType} onChange={(e) => setPlayerTwoData({...playerTwoData, classType: e.target.value})}>
+    <select id="select" value={classType} onChange={(e) => setPlayerObjectState({...playerObjectState, classType: e.target.value})}>
         {/* Dynamically generate options from the array */}
         {classOptions.map((classOptions, index) => (
           <option key={index} value={classOptions}>
@@ -64,7 +67,7 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
 
 <div>
     <p>Level</p>
-    <select id="select" value={lvl} onChange={(e) => setPlayerTwoData({...playerTwoData, lvl: e.target.value})}>
+    <select id="select" value={lvl} onChange={(e) => setPlayerObjectState({...playerObjectState, lvl: e.target.value})}>
         {/* Dynamically generate options from the array */}
         {levelOptions.map((levelOptions, index) => (
           <option key={index} value={levelOptions}>
@@ -76,13 +79,13 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
 
 <div>
     <p>Background</p>
-    <input name='name' type="text"  value={background} onChange={(e) => setPlayerTwoData({...playerTwoData, background: e.target.value})}/>
+    <input name='name' type="text"  value={background} onChange={(e) => setPlayerObjectState({...playerObjectState, background: e.target.value})}/>
     <button onClick={() => {  window.open(`https://blackcitadelrpg.com/list-of-backgrounds-5e`, '_blank', 'noopener,noreferrer');}}>help</button>
 </div>
 
 <div>
     <p>Race</p>
-    <select id="select" value={race} onChange={(e) => setPlayerTwoData({...playerTwoData, race: e.target.value})}>
+    <select id="select" value={race} onChange={(e) => setPlayerObjectState({...playerObjectState, race: e.target.value})}>
         {/* Dynamically generate options from the array */}
         {dndRaces.map((dndRaces, index) => (
           <option key={index} value={dndRaces}>
@@ -94,7 +97,7 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
 
 <div>
     <p>Size</p>
-    <select id="select" value={size} onChange={(e) => setPlayerTwoData({...playerTwoData, size: e.target.value})}>
+    <select id="select" value={size} onChange={(e) => setPlayerObjectState({...playerObjectState, size: e.target.value})}>
         {/* Dynamically generate options from the array */}
         {danddsize.map((danddsize, index) => (
           <option key={index} value={danddsize}>
@@ -106,7 +109,7 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
 
 <div>
     <p>Alignment</p>
-    <select id="select" value={alignment} onChange={(e) => setPlayerTwoData({...playerTwoData, alignment: e.target.value})}>
+    <select id="select" value={alignment} onChange={(e) => setPlayerObjectState({...playerObjectState, alignment: e.target.value})}>
         {/* Dynamically generate options from the array */}
         {danddAlignment.map((danddAlignment, index) => (
           <option key={index} value={danddAlignment}>
@@ -119,42 +122,42 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
 
 <div>
     <p>Armor Class (base armor + Dex modifier) </p>
-    <input name='name' type="text"  value={ac} onChange={(e) => setPlayerTwoData({...playerTwoData, ac: e.target.value})}/>
+    <input name='name' type="text"  value={ac} onChange={(e) => setPlayerObjectState({...playerObjectState, ac: e.target.value})}/>
     <button onClick={() => {  window.open(`https://blackcitadelrpg.com/armor-class-5e/#How_to_Calculate_Armor_Class_in_DnD_5e`, '_blank', 'noopener,noreferrer');}}>help</button>
 </div>
 
 <div>
     <p>Initiative (Dex modifier) </p>
-    <input name='name' type="text"  value={initiative} onChange={(e) => setPlayerTwoData({...playerTwoData, initiative: e.target.value})}/>
+    <input name='name' type="text"  value={initiative} onChange={(e) => setPlayerObjectState({...playerObjectState, initiative: e.target.value})}/>
     <button onClick={() => {  window.open(`https://blackcitadelrpg.com/initiative-bonus-5e/`, '_blank', 'noopener,noreferrer');}}>help</button>
 </div>
 
 <div>
     <p>Speed</p>
-    <input name='name' type="text"  value={speed} onChange={(e) => setPlayerTwoData({...playerTwoData, speed: e.target.value})}/>
+    <input name='name' type="text"  value={speed} onChange={(e) => setPlayerObjectState({...playerObjectState, speed: e.target.value})}/>
     <button onClick={() => {  window.open(`https://www.google.com/search?q=d+and+d+${classType}+movement+speed+e5`, '_blank', 'noopener,noreferrer');}}>help</button>
 </div>
 
 <div>
     <p>Current Max Health</p>
-    <input name='name' type="text"  value={hp} onChange={(e) => setPlayerTwoData({...playerTwoData, hp: e.target.value})}/>
+    <input name='name' type="text"  value={hp} onChange={(e) => setPlayerObjectState({...playerObjectState, hp: e.target.value})}/>
     <button onClick={() => {  window.open(`https://www.google.com/search?q=d+and+d+class+${classType}+starting+hp+5e`, '_blank', 'noopener,noreferrer');}}>help</button>
 </div>
 
 <div>
     <p>Current Health</p>
-    <input name='name' type="text"  value={hpLeft} onChange={(e) => setPlayerTwoData({...playerTwoData, hpLeft: e.target.value})}/>
+    <input name='name' type="text"  value={hpLeft} onChange={(e) => setPlayerObjectState({...playerObjectState, hpLeft: e.target.value})}/>
 </div>
 
 
 <div>
     <p>Hit Dice</p>
-    <input name='name' type="text"  value={name} onChange={(e) => setPlayerTwoData({...playerTwoData, name: e.target.value})}/>
+    <input name='name' type="text"  value={name} onChange={(e) => setPlayerObjectState({...playerObjectState, name: e.target.value})}/>
 </div>
 
 <div>
     <p>Death Saves Used</p>
-    <input name='name' type="text"  value={deathSaves} onChange={(e) => setPlayerTwoData({...playerTwoData, deathSaves: e.target.value})}/>
+    <input name='name' type="text"  value={deathSaves} onChange={(e) => setPlayerObjectState({...playerObjectState, deathSaves: e.target.value})}/>
 </div>
 
       <div className='bg-slate-200 flex flex-col text-center items-center justify-center my-3'> 
@@ -163,37 +166,40 @@ export default function BuildPlayer2({playerTwoData, setPlayerTwoData}) {
       </div>  
 <div>
     <p>Strength</p>
-    <input name='name' type="text"  value={strTotalNumber} onChange={(e) => setPlayerTwoData({...playerTwoData, strTotalNumber: e.target.value})}/>
+    <input name='name' type="text"  value={strTotalNumber} onChange={(e) => setPlayerObjectState({...playerObjectState, strTotalNumber: e.target.value})}/>
 </div>
 <div>
     <p>Dexterity</p>
-    <input name='name' type="text"  value={dexTotalNumber} onChange={(e) => setPlayerTwoData({...playerTwoData, dexTotalNumber: e.target.value})}/>
+    <input name='name' type="text"  value={dexTotalNumber} onChange={(e) => setPlayerObjectState({...playerObjectState, dexTotalNumber: e.target.value})}/>
 </div>
 <div>
     <p>Constitution</p>
-    <input name='name' type="text"  value={conTotalNumber} onChange={(e) => setPlayerTwoData({...playerTwoData, conTotalNumber: e.target.value})}/>
+    <input name='name' type="text"  value={conTotalNumber} onChange={(e) => setPlayerObjectState({...playerObjectState, conTotalNumber: e.target.value})}/>
 </div>
 <div>
     <p>Inelegance</p>
-    <input name='name' type="text"  value={intTotalNumber} onChange={(e) => setPlayerTwoData({...playerTwoData, intTotal: e.target.value})}/>
+    <input name='name' type="text"  value={intTotalNumber} onChange={(e) => setPlayerObjectState({...playerObjectState, intTotal: e.target.value})}/>
 </div>
 
 <div>
     <p>Wisdom</p>
-    <input name='name' type="text"  value={wisTotalNumber} onChange={(e) => setPlayerTwoData({...playerTwoData, wisTotalNumber: e.target.value})}/>
+    <input name='name' type="text"  value={wisTotalNumber} onChange={(e) => setPlayerObjectState({...playerObjectState, wisTotalNumber: e.target.value})}/>
 </div>
 
 <div>
     <p>Charisma</p>
-    <input name='name' type="text"  value={chaTotalNumber} onChange={(e) => setPlayerTwoData({...playerTwoData, chaTotal: e.target.value})}/>
+    <input name='name' type="text"  value={chaTotalNumber} onChange={(e) => setPlayerObjectState({...playerObjectState, chaTotal: e.target.value})}/>
 </div>
 
 <div>
     <p>Gold (50Gp is standard) </p> 
-    <input name='name' type="text"  value={gold} onChange={(e) => setPlayerTwoData({...playerTwoData, Gold: e.target.value})}/>
+    <input name='name' type="text"  value={gold} onChange={(e) => setPlayerObjectState({...playerObjectState, Gold: e.target.value})}/>
 </div>
+
+<button className='bg-slate-400 '>Finish</button>
 
 </div>
     </form>
+    
   )
-}
+        }

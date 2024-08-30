@@ -1,12 +1,8 @@
 import React, { useState, useEffect }  from 'react'
 import Header from '../Components/Header'
-import DMPlayerCards from '../Components/DMPlayerCards'
 import Player2 from '../Components/Player2'
-import Player3 from '../Components/Player3'
-import Player4 from '../Components/Player4'
-import Player5 from '../Components/Player5'
-import Player6 from '../Components/Player6'
 import Player2ex from '../Components/Player2ex'
+import CharecterSelection from './CharecterSelection'
 
 
 export default function PlayGame() {
@@ -53,7 +49,7 @@ export default function PlayGame() {
         intTotalNumber: 16,
         wisTotalNumber: 12, 
         chaTotalNumber: 8,
-        gold: gold,
+        gold: 50,
         playerName: "yourName",
         background: "folk Hero",
         size: "medium",
@@ -75,88 +71,13 @@ export default function PlayGame() {
 
 
     }
-    const PlayerThree = {
-        name:'Player 3',
-        lvl: 0,
-        roll: 0,
-        race: "Human", 
-        classType: "wizard",
-        hp: 10, 
-        hpLeft: 10,
-        speed: 30,
-        ac: 13,
-        strTotal: "+1",
-        dexTotal: "+1",
-        conTotal: "+1",
-        intTotal: "+1",
-        wisTotal: "+1", 
-        chaTotal: "+1",
-        gold: gold,
-        playerName: "yourName"
-    }
-    const PlayerFour = {
-        name:'Player 4',
-        lvl: 0,
-        roll: 0,
-        race: "Human", 
-        classType: "wizard",
-        hp: 10, 
-        hpLeft: 10,
-        speed: 30,
-        ac: 13,
-        strTotal: "+1",
-        dexTotal: "+1",
-        conTotal: "+1",
-        intTotal: "+1",
-        wisTotal: "+1", 
-        chaTotal: "+1",
-        gold: gold,
-        playerName: "yourName"
-    }
-    const PlayerFive = {
-        name:'Player 5',
-        lvl: 0,
-        roll: 0,
-        race: "Human", 
-        classType: "wizard",
-        hp: 10, 
-        hpLeft: 10,
-        speed: 30,
-        ac: 13,
-        strTotal: "+1",
-        dexTotal: "+1",
-        conTotal: "+1",
-        intTotal: "+1",
-        wisTotal: "+1", 
-        chaTotal: "+1",
-        gold: gold,
-        playerName: "yourName"
-    }
-    const PlayerSix = {
-        name:'Player 6',
-        lvl: 0,
-        roll: 0,
-        race: "Human", 
-        classType: "wizard",
-        hp: 10, 
-        hpLeft: 10,
-        speed: 30,
-        ac: 13,
-        strTotal: "+1",
-        dexTotal: "+1",
-        conTotal: "+1",
-        intTotal: "+1",
-        wisTotal: "+1", 
-        chaTotal: "+1",
-        gold: gold,
-        playerName: "yourName"
-    }
+   
+
+ 
 
     const [playerTwoData, setPlayerTwoData] = useState(PlayerTwo)
-    const [playerThreeData, setPlayerThreeData] = useState(PlayerThree)
-    const [playerFourData, setPlayerFourData] = useState(PlayerFour)
-    const [playerFiveData, setPlayerFiveData] = useState(PlayerFive)
-    const [playerSixData, setPlayerSixData] = useState(PlayerSix)
+
+
 
 
 function changeView(props) {
@@ -178,38 +99,10 @@ function changeView(props) {
     
     <div className=' flex flex-col  h-screen w-screen bg'>
         <Header/>
-        <div className='w-full min-h-[40px] bg-red-300 flex   justify-evenly'>
-            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("dm")}} >DM</button>
-            <button className='bg-slate-200 rounded-full p-2'onClick={() => {changeView("p1")}} >P1</button>
-            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p2")}} >P2</button>
-            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p3")}} >P3</button>
-            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p4")}} >P4</button>
-            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p5")}} >P5</button>
-            <button className='bg-slate-200 rounded-full p-2' onClick={() => {changeView("p6")}} >P6</button>
-        
-          
-        </div>
-
         {/* body  */}
 <div className='flex overflow-auto justify-center flex-wrap h-full items-center' >
+ <Player2ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />
 
-{/* dm view  */}
-    {chooseView === "dm" ? <div className='flex overflow-auto justify-evenly flex-wrap h-full items-center' > 
-  <DMPlayerCards name={name} roll={roll} setRoll={setRoll} race={race} setRace={setRace} lvl={lvl} classType={classType} hp={hp} hpLeft={hpLeft} speed={speed} ac={ac} strTotal={strTotal} dexTotal={dexTotal} conTotal={conTotal} intTotal={intTotal} wisTotal={wisTotal} chaTotal={chaTotal} gold={gold} playerName={playerName} setName={setName} setLvl={setLvl} setClassType={setClassType} setHp={setHp} setHpLeft={setHpLeft} setSpeed={setSpeed} setAc={setAc} setStrTotal={setStrTotal} setDexTotal={setDexTotal} setConTotal={setConTotal} setIntTotal={setIntTotal} setWisTotal={setWisTotal} setChaTotal={setChaTotal} setGold={setGold} setPlayerName={setPlayerName} />
-  <Player2 playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} ></Player2>
-  <Player3 playerThreeData={playerThreeData} setPlayerThreeData={setPlayerThreeData} />
-  <Player4 playerFourData={playerFourData} setPlayerFourData={setPlayerFourData} />
-  <Player5 playerFiveData={playerFiveData} setPlayerFiveData={setPlayerFiveData} />
-  <Player6 playerSixData={playerSixData} setPlayerSixData={setPlayerSixData} /></div> : <></> } 
-
-
-{/* player view  */}
-
-{chooseView === "p2" ? <Player2ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
-{chooseView === "p3" ? <Player3ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
-{chooseView === "p4" ? <Player4ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
-{chooseView === "p5" ? <Player5ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
-{chooseView === "p6" ? <Player6ex playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData} />  : <p></p>}
 </div>
     </div>
   )

@@ -216,10 +216,9 @@ const rollTheDice = (max) => {
 <div>
 <div>
         {toolProficiencie.map((item, index) => (
-          <ListItem key={index.length} description={item}></ListItem>
+          <ListItem key={index} description={item}></ListItem>
         ))}
       </div>
-      
       <button onClick={() => {console.log(Item)}}> edit </button>
 
 </div>

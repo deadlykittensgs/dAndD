@@ -1,4 +1,4 @@
-import React from 'react'
+import React  from 'react'
 
 export default function Header() {
   return (
@@ -8,6 +8,7 @@ export default function Header() {
     <a href='https://www.dndbeyond.com/classes' target='_blank' >Classes</a>
     <a href='https://www.dndbeyond.com/races' target='_blank' >Races</a>
     <a href='https://www.dndbeyond.com' target='_blank' >Official sight</a>
+    <a href='CharecterSelection' >char selection</a>
     <a href="/playGame">play</a>
         </div>
   )
