@@ -1,5 +1,4 @@
 import React, { useState }  from 'react'
-import Player1 from './Player1'
 
 
 export default function CreatedChar({name,lvl,race, classType, divs, setDivs, removeCharacter }) {

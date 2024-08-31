@@ -1,8 +1,10 @@
 import React  from 'react'
+import AuthDetails from "../Components/authFunctions/authDetails"
 
 export default function Header() {
   return (
     <div className='graybg text-white h-[50px] w-screen flex items-center justify-evenly' >
+      <AuthDetails/>
     <a  href='home' >Home</a>
     <a href='https://www.dndbeyond.com/spells' target='_blank' >Spells</a>
     <a href='https://www.dndbeyond.com/classes' target='_blank' >Classes</a>

@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
 import Header from '../Components/Header'
 import Footer from '../Components/Footer'
-import { doSignInWithEmailAndPassword } from '../Firebase/auth';
 import { useAuth } from '../contexts/authContext/Index';
-import CreateAccount from '../Components/CreateAccount'
-import Login from '../Components/Login';
+import CreateAccount from "../Components/authFunctions/CreateAccount"
+import Login from "../Components/authFunctions/Login"
 
   
 
