@@ -1,24 +1,40 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from "../../Firebase/firebase"; // Adjust the import path as needed
+import { auth, db } from "../../Firebase/firebase"
+import { doc, setDoc } from 'firebase/firestore'; 
+import { useNavigate } from 'react-router-dom';
+
 
 export default function CreateAccount({ hasAccount, setHasAccount, setIsSigningIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
-  const onSubmit = (e) => {
-    e.preventDefault(); // Prevents the form from submitting normally
 
-    // Create a new user with Firebase
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        console.log('User created:', userCredentials.user);
-        // Optionally, you can add any additional logic after successful creation
-      })
-      .catch((error) => {
-        console.log('Error creating account:', error.code, error.message);
-        // Optionally, handle different error codes for better UX
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Sign up the user
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Create a new document for the user in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        createdAt: new Date(),
+        displayName: user.displayName || '',
+        // Add any other user fields you want to save
       });
+      navigate('/CharecterSelection')
+      console.log('New user document created in Firestore');
+      console.log(userCredential);
+
+    } catch (error) {
+      console.log('Error signing up:', error.code, error.message);
+      setErrorMsg(error.message)
+    }
   };
 
   return (
@@ -45,6 +61,7 @@ export default function CreateAccount({ hasAccount, setHasAccount, setIsSigningI
             />
           </div>
           <button type="submit" className='bg-slate-400 w-[100px] mt-4'>Sign Up</button>
+          <p className='text-red-500 italic'>{errorMsg}</p>
         </div>
       </form>
       <div className='flex justify-center mt-4'>

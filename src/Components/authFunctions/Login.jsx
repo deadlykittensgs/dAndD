@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../../Firebase/firebase"
+import { doc, setDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 export default function Login({ hasAccount, setHasAccount, }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);  // Successfully signed in
-      })
-      .then((userCredentials) => {
-        console.log(userCredentials)
-      })
-      .catch((error) => {
+
+
+
+    try{
+   // Sign up the user
+   const userCredential = await signInWithEmailAndPassword(auth, email, password);
+   const user = userCredential.user;
+   console.log(userCredential); 
+   navigate('/CharecterSelection')
+    } catch(error) {
         console.log('Error signing in:', error.code, error.message);  // Handle errors here
-      });
+        setErrorMsg(error.message)
+      };
   };
 
   return (
@@ -44,12 +55,13 @@ export default function Login({ hasAccount, setHasAccount, }) {
             />
           </div>
           <button type="submit" className='bg-slate-400 w-[100px] mt-4'>Sign in</button>
+          <p className='text-red-500 italic'>{errorMsg}</p>
         </div>
       </form>
       <div className='flex justify-center mt-4'>
-        <p>Already have an account? 
+        <p>Don't have an account? 
           <span className=' bg-slate-200 rounded p-1 text-blue-500 cursor-pointer ml-2' onClick={() => setHasAccount(false)}>
-            Sign In
+            Sign Up
           </span>
         </p>
       </div>

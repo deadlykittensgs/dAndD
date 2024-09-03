@@ -3,9 +3,10 @@ import { useState } from 'react'
 import BuildPlayer2 from './BuildPlayer2'
 import ListItem from './ListItem'
 
-export default function Player2ex({playerTwoData,setPlayerTwoData}) {
+export default function Player2ex({playerData,setPlayerData}) {
 
-const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, gold, playerName,background, size, alignment, initiative, deathSaves, actions, savingThrows, skills, toolProficiencie, abilities, inventory, notes, languages, strTotalNumber, dexTotalNumber, conTotalNumber, intTotalNumber, wisTotalNumber, chaTotalNumber, } = playerTwoData
+const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, gold, playerName,background, size, alignment, initiative, deathSaves, actions, savingThrows, skills, toolProficiencie, abilities, inventory, notes, languages, strTotalNumber, dexTotalNumber, conTotalNumber, intTotalNumber, wisTotalNumber, chaTotalNumber, } = playerData
+console.log(playerData)
 const [lock, setLock] = useState(true)
 const [count, setCount] = useState(0);
 
@@ -19,9 +20,9 @@ if (lock === false) {
   // Increment the first number `times` times
   arr[place] += times;
  
-  setPlayerTwoData({...playerTwoData, place: arr  })
+  setPlayerData({...playerData, place: arr  })
   // Return the modified array
-  console.log(playerTwoData)
+  console.log(playerData)
   return arr;
 } else {
   return
@@ -31,7 +32,7 @@ if (lock === false) {
 
 const rollTheDice = (max) => {
   let roll =  Math.floor(Math.random() * max) + 1
-  setPlayerTwoData({...playerTwoData, roll:(roll)})
+  setPlayerTwoData({...playerData, roll:(roll)})
 
 }
 
@@ -264,7 +265,7 @@ const rollTheDice = (max) => {
 
 
 
-<BuildPlayer2 playerTwoData={playerTwoData} setPlayerTwoData={setPlayerTwoData}/>
+<BuildPlayer2 playerData={playerData} setPlayerData={setPlayerData}/>
 
 </div>
 

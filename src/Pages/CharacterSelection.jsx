@@ -1,10 +1,15 @@
-live -https://calm-pastelito-58db04.netlify.app
+import React, { useState, useEffect } from 'react';
+import Header from '../Components/Header';
+import Footer from '../Components/Footer';
+import CreatedChar from '../Components/CreatedChar';
+import BuildNewPlayer from '../Components/buildNewPlayer';
+import { collection, addDoc, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { db } from '../Firebase/firebase';
+import { useAuth } from '../Components/authFunctions/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-
-adding a firestore now
-
-
-
+export default function CharacterSelection({ changeDetails }) {
+  console.log('Received changeDetails:', changeDetails); 
   const playerObject = {
     name: 'object player',
     lvl: 0,
@@ -54,33 +59,15 @@ adding a firestore now
     languages: ['language 1', 'language 2', 'language 3'],
   };
 
-
-
-
-  import React, { useState, useEffect } from 'react';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
-import CreatedChar from '../Components/CreatedChar';
-import BuildNewPlayer from '../Components/buildNewPlayer';
-import { collection, addDoc, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore'; // Import getDoc to fetch individual documents
-import { db } from '../Firebase/firebase';
-import { useAuth } from '../Components/authFunctions/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
-export default function CharacterSelection() {
-  const playerObject = {
-    // Your initial playerObject structure...
-  };
-
   const [divs, setDivs] = useState([]);
   const [build, setBuild] = useState(true);
   const [dmView, setDmView] = useState([]);
   const [playerObjectState, setPlayerObjectState] = useState(playerObject);
   const [firebaseInfo, setFirebaseInfo] = useState([]);
   const { currentUser } = useAuth();
-  const navigate = useNavigate(); // Hook to navigate programmatically
+  const navigate = useNavigate();
 
-  // Function to get all characters info
+  // Function to get info
   const fetchWords = async () => {
     try {
       if (currentUser) {
@@ -101,39 +88,84 @@ export default function CharacterSelection() {
     fetchWords();
   }, [currentUser]);
 
-  // Function to fetch a specific character's data and navigate to the playgame page
-  const selectPlayer = async (id) => {
+  // Function to add info
+  const pushToDB = async (object) => {
     try {
       if (currentUser) {
-        const docRef = doc(db, 'users', currentUser.uid, 'characters', id);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const characterData = docSnap.data();
-          console.log('Character data:', characterData);
-
-          // Navigate to /playgame with the character data
-          navigate('/playgame', { state: { characterData } });
-        } else {
-          console.log('No such document!');
-        }
+        const myCollection = collection(db, 'users', currentUser.uid, 'characters');
+        const docRef = await addDoc(myCollection, object);
+        console.log('Document written with ID: ', docRef.id);
+        fetchWords(); // Refresh data after adding
       }
     } catch (error) {
-      console.error('Error fetching character data:', error);
+      console.error('Error adding document: ', error);
     }
   };
 
-  const pushToDB = async (object) => {
-    // Your pushToDB function implementation...
-  };
-
   const handleDelete = async (id) => {
-    // Your handleDelete function implementation...
+    try {
+      if (!currentUser) {
+        console.error("User not authenticated");
+        return;
+      }
+
+      if (!id) {
+        console.error("ID is undefined");
+        return;
+      }
+
+      console.log(`Attempting to delete document with ID: ${id}`);
+
+      // Reference to the specific document in the collection
+      const docRef = doc(db, 'users', currentUser.uid, 'characters', id);
+
+      // Delete the document
+      await deleteDoc(docRef);
+
+      console.log(`Document with ID: ${id} deleted successfully.`);
+      fetchWords(); // Refresh data after deletion
+    } catch (error) {
+      console.error('Error deleting document:', error);
+    }
   };
 
   function addCharacter(name, lvl, classType, race) {
-    // Your addCharacter function implementation...
+    setDivs([
+      ...divs,
+      <CreatedChar
+        divs={divs}
+        setDivs={setDivs}
+        key={divs.length}
+        name={name}
+        lvl={lvl}
+        classType={classType}
+        race={race}
+      />,
+    ]);
   }
+
+  const selectPlayer = async (id) => {
+    if (!changeDetails) {
+      console.error('changeDetails function is not available');
+      return;
+    }
+
+    try {
+      const docRef = doc(db, 'users', currentUser.uid, 'characters', id);
+      // Fetch the document data (assuming you want to use the document data directly)
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        // Update player data with fetched data
+        changeDetails(docSnap.data());
+        // Navigate to play game page
+        navigate("/playgame", { state: { playerData: docSnap.data() } });
+      } else {
+        console.log('No such document!');
+      }
+    } catch (e) {
+      console.error('Error selecting player: ', e);
+    }
+  };
 
   return (
     <div className="flex flex-col h-[700px] w-screen bg-blue-500">
@@ -182,7 +214,7 @@ export default function CharacterSelection() {
                         classType={char.classType}
                         race={char.race}
                         handleDelete={handleDelete}
-                        selectPlayer={() => selectPlayer(char.id)} // Pass selectPlayer with character ID
+                        selectPlayer={selectPlayer}
                       />
                     ))}
                   </div>
@@ -194,7 +226,6 @@ export default function CharacterSelection() {
           </div>
         </div>
       </div>
-      {true === true ? <p></p> : <PlayGame dmView={dmView} setDmView={setDmView} />}
       <Footer />
     </div>
   );
