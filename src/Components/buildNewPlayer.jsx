@@ -14,7 +14,7 @@ export default function BuildNewPlayer({playerObjectState, setPlayerObjectState,
     const dndRaces = [ "Dragonborn","Dwarf","Elf","Gnome","Half-Elf", "Halfling", "Half-Orc","Human", "Tiefling", "Aarakocra","Genasi","Goliath","Aasimar","Bugbear","Firbolg","Goblin", "Hobgoblin", "Kenku", "Kobold", "Lizardfolk", "Orc", "Tabaxi","Triton","Yuan-ti Pureblood","Gith", "Eladrin", "Shadar-Kai", "Changeling", "Kalashtar","Orc of Eberron","Shifter","Warforged", "Centaur", "Minotaur", "Satyr","Triton of Theros","Pallid Elf", "Sea Elf", "Tortle","Dhampir", "Hexblood", "Reborn","Centaur of Ravnica","Loxodon","Simic Hybrid","Vedalken","Fairy","Harengon","Owlin","Verdan","Grung", "Automaton", "Eidolon", "Soulless", "Tiefling Variant", "Aetherborn","Khenra", "Naga", "Reborn"];
     const danddsize =["Tiny","small","Medium","Large","Huge",]
     const danddAlignment =["LG","NG","CG","LN","N","CN","LE","NE","CE"]
-     
+   
     const addInfoToArray = (e) => {
         e.preventDefault()
         pushToDB(playerObjectState)

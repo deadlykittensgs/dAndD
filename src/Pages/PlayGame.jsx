@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState,  useContext, useEffect  } from 'react';
 import Header from '../Components/Header';
 import Player2ex from '../Components/Player2ex';
-import CharacterSelection from './CharacterSelection';
+import { GameContext } from '../Components/GameContext';
+
+
 
 export default function PlayGame() {
+
+  const { playerCharData } = useContext(GameContext);
+// change this with char select 
   const [playerData, setPlayerData] = useState({
-    // Initial player data
-    name: 'Player 1',
+    name: 'Player t',
     lvl: 0,
     roll: 0,
-    race: 'Gnome',
+    race: 'elf', 
     classType: 'bard',
     hp: 10,
     hpLeft: 10,
@@ -58,11 +62,18 @@ export default function PlayGame() {
     setPlayerData(newData);
   };
 
+
+
+
+  useEffect(() => {
+    if (playerCharData) {
+      setPlayerData(playerCharData); // Initialize playerData with playerCharData
+    }
+  }, [playerCharData]);
+
   return (
     <div className='flex flex-col h-screen w-screen bg'>
       <Header />
-      {/* Pass changeDetails to CharacterSelection */}
-      {/* <CharacterSelection changeDetails={changeDetails} /> */}
       <div className='flex overflow-auto justify-center flex-wrap h-full items-center'>
         <Player2ex playerData={playerData} setPlayerData={setPlayerData} />
       </div>

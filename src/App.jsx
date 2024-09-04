@@ -7,19 +7,19 @@ import PlayGame from './Pages/PlayGame';
 import { AuthProvider } from './Components/authFunctions/AuthContext';
 import ProtectedRoute from './Components/authFunctions/ProtectedRoute';
 
+
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          {/* Use ProtectedRoute within the Routes */}
-          <Route path="/charecterselection" element={<ProtectedRoute> <CharacterSelection /> </ProtectedRoute>}/>
-          <Route path="/playgame" element={<ProtectedRoute>  <PlayGame /> </ProtectedRoute>} />
-          <Route path="*" element={<Nopage />} />
-        </Routes>
-      </BrowserRouter>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/charecterselection" element={<ProtectedRoute><CharacterSelection /></ProtectedRoute>} />
+            <Route path="/playgame" element={<ProtectedRoute><PlayGame /></ProtectedRoute>} />
+            <Route path="*" element={<Nopage />} />
+          </Routes>
+        </BrowserRouter>
     </AuthProvider>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import CreatedChar from '../Components/CreatedChar';
@@ -7,9 +7,12 @@ import { collection, addDoc, getDocs, deleteDoc, doc, getDoc } from 'firebase/fi
 import { db } from '../Firebase/firebase';
 import { useAuth } from '../Components/authFunctions/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { GameContext } from '../Components/GameContext'; // Import the context
 
-export default function CharacterSelection({ changeDetails }) {
-  console.log('Received changeDetails:', changeDetails); 
+export default function CharacterSelection() {
+
+  
+
   const playerObject = {
     name: 'object player',
     lvl: 0,
@@ -59,13 +62,22 @@ export default function CharacterSelection({ changeDetails }) {
     languages: ['language 1', 'language 2', 'language 3'],
   };
 
+  const addStaticClasses = (playerObject) => {
+    return {
+      ...playerObject,
+      staticClasses: staticClasses,
+    };
+  };
+
+  const { playerCharData, setPlayerCharData } = useContext(GameContext); // Use context
   const [divs, setDivs] = useState([]);
   const [build, setBuild] = useState(true);
-  const [dmView, setDmView] = useState([]);
   const [playerObjectState, setPlayerObjectState] = useState(playerObject);
   const [firebaseInfo, setFirebaseInfo] = useState([]);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
+
 
   // Function to get info
   const fetchWords = async () => {
@@ -83,19 +95,17 @@ export default function CharacterSelection({ changeDetails }) {
     }
   };
 
-  // Fetch data when component mounts or currentUser changes
   useEffect(() => {
     fetchWords();
   }, [currentUser]);
 
-  // Function to add info
   const pushToDB = async (object) => {
     try {
       if (currentUser) {
         const myCollection = collection(db, 'users', currentUser.uid, 'characters');
         const docRef = await addDoc(myCollection, object);
         console.log('Document written with ID: ', docRef.id);
-        fetchWords(); // Refresh data after adding
+        fetchWords();
       }
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -104,26 +114,16 @@ export default function CharacterSelection({ changeDetails }) {
 
   const handleDelete = async (id) => {
     try {
-      if (!currentUser) {
-        console.error("User not authenticated");
-        return;
-      }
-
-      if (!id) {
-        console.error("ID is undefined");
+      if (!currentUser || !id) {
+        console.error("User not authenticated or ID is undefined");
         return;
       }
 
       console.log(`Attempting to delete document with ID: ${id}`);
-
-      // Reference to the specific document in the collection
       const docRef = doc(db, 'users', currentUser.uid, 'characters', id);
-
-      // Delete the document
       await deleteDoc(docRef);
-
       console.log(`Document with ID: ${id} deleted successfully.`);
-      fetchWords(); // Refresh data after deletion
+      fetchWords();
     } catch (error) {
       console.error('Error deleting document:', error);
     }
@@ -135,7 +135,7 @@ export default function CharacterSelection({ changeDetails }) {
       <CreatedChar
         divs={divs}
         setDivs={setDivs}
-        key={divs.length}
+        key={name + lvl} // Ensure unique key
         name={name}
         lvl={lvl}
         classType={classType}
@@ -145,19 +145,11 @@ export default function CharacterSelection({ changeDetails }) {
   }
 
   const selectPlayer = async (id) => {
-    if (!changeDetails) {
-      console.error('changeDetails function is not available');
-      return;
-    }
-
     try {
       const docRef = doc(db, 'users', currentUser.uid, 'characters', id);
-      // Fetch the document data (assuming you want to use the document data directly)
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        // Update player data with fetched data
-        changeDetails(docSnap.data());
-        // Navigate to play game page
+        setPlayerCharData(docSnap.data());
         navigate("/playgame", { state: { playerData: docSnap.data() } });
       } else {
         console.log('No such document!');
@@ -175,24 +167,25 @@ export default function CharacterSelection({ changeDetails }) {
           <div className="flex w-full h-[70px] overflow-auto justify-between items-center p-4">
             <p>Create New Character</p>
             <div className='flex gap-1'>
-              <button onClick={() => { window.location.reload() }} className="bg-sky-200 p-2 rounded"><i className="fa-solid fa-arrows-rotate"></i></button>
               <button
-                onClick={() => {
-                  setBuild(!build);
-                }}
+                onClick={() => fetchWords()} // Refresh data without reloading
+                className="bg-sky-200 p-2 rounded"
+              >
+                <i className="fa-solid fa-arrows-rotate"></i>
+              </button>
+              <button
+                onClick={() => setBuild(!build)}
                 className="bg-sky-200 p-2 rounded"
               >
                 {build ? <i className="fa-solid fa-user-plus"></i> : <i className="fa-solid fa-ban"></i>}
               </button>
             </div>
           </div>
-          {/* this swaps between the player build option and the players built option */}
           <div className="flex flex-col h-[400px] w-full overflow-y-auto">
             {build ? (
               divs
             ) : (
               <BuildNewPlayer
-                key={build.length}
                 build={build}
                 setBuild={setBuild}
                 pushToDB={pushToDB}
@@ -203,21 +196,18 @@ export default function CharacterSelection({ changeDetails }) {
             <div className="flex items-center justify-center">
               {build ? (
                 <div>
-                  {/* Map through firebaseInfo to display characters */}
-                  <div>
-                    {firebaseInfo.map((char) => (
-                      <CreatedChar
-                        key={char.id}
-                        id={char.id}
-                        name={char.name}
-                        lvl={char.lvl}
-                        classType={char.classType}
-                        race={char.race}
-                        handleDelete={handleDelete}
-                        selectPlayer={selectPlayer}
-                      />
-                    ))}
-                  </div>
+                  {firebaseInfo.map((char) => (
+                    <CreatedChar
+                      key={char.id}
+                      id={char.id}
+                      name={char.name}
+                      lvl={char.lvl}
+                      classType={char.classType}
+                      race={char.race}
+                      handleDelete={handleDelete}
+                      selectPlayer={selectPlayer}
+                    />
+                  ))}
                 </div>
               ) : (
                 <></>

@@ -32,7 +32,7 @@ if (lock === false) {
 
 const rollTheDice = (max) => {
   let roll =  Math.floor(Math.random() * max) + 1
-  setPlayerTwoData({...playerData, roll:(roll)})
+  setPlayerData({...playerData, roll:(roll)})
 
 }
 
