@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 
 
-export default function BuildPlayer2({playerData, setPlayerData}) {
+export default function BuildPlayer2({setEditMe, editMe, playerData, setPlayerData}) {
 
 
     const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, gold, playerName,background, size, alignment, initiative, deathSaves, actions, savingThrows, skills, toolProficiencie, abilities, inventory, notes, languages, strTotalNumber, dexTotalNumber, conTotalNumber, intTotalNumber, wisTotalNumber, chaTotalNumber,  } = playerData
@@ -26,7 +26,11 @@ export default function BuildPlayer2({playerData, setPlayerData}) {
 
 
   return (
+    
     <form onSubmit={addInfoToArray} className=' flex flex-col h-fit w-[100%] bg-slate-500'>
+<div className='flex justify-center'>
+<button className='bg-slate-200 p-1 rounded m-2' onClick={() => {setEditMe(!editMe)}}>Done</button>
+</div>
 
 <div className='flex flex-col p-4'>
     {/* box 1 */}

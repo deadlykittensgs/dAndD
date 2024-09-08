@@ -1,9 +1,4 @@
 import React, { useState }  from 'react'
-import { deleteDoc, doc } from 'firebase/firestore';
-import { useAuth } from '../Components/authFunctions/AuthContext';
-import { db } from '../Firebase/firebase';
-
-
 
 export default function CreatedChar({ id, name, lvl, classType, race, handleDelete, selectPlayer }) {
 
@@ -23,6 +18,7 @@ export default function CreatedChar({ id, name, lvl, classType, race, handleDele
             <p>{classType}</p>
         </div>
         </div>
+      
 
         <div className='flex flex-col w-[50px] justify-between m-2'>
             <button onClick={() => {handleDelete(id)}} ><i className="fa-solid fa-trash"></i></button>

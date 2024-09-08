@@ -18,11 +18,7 @@ export default function Home() {
     const [isSigningIn, setIsSigningIn] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [hasAccount, setHasAccount] = useState(true)
-
-
     const [count, setCount] = useState(0);
-   
-    // const { userLoggedIn } = useAuth()
 
 function rollDice(min, max) {
     let roll = Math.floor(Math.random() * (max - min + 1)) + min;

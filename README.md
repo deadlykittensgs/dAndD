@@ -1,7 +1,47 @@
 live -https://calm-pastelito-58db04.netlify.app
 
 
-adding a firestore now
+Home Page -
+accept input data
+redirect to character selection
+
+
+Character Selection -
+
+check user profile and update a list of created characters
+enable an add and delete function to the list with correctly formatted character info 
+pass this info to the next page to display it in an easy to read way 
+
+
+Play Game -
+
+show the stats imported form Char select and allow edits directly to the firebase DB
+retrieve the data from firebase db using the character unique id 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

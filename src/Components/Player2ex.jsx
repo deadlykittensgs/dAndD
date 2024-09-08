@@ -1,14 +1,14 @@
 import React  from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import BuildPlayer2 from './BuildPlayer2'
 import ListItem from './ListItem'
 
-export default function Player2ex({playerData,setPlayerData}) {
+export default function Player2ex({nextCharacter, editMe, setEditMe, playerData,setPlayerData}) {
 
 const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, gold, playerName,background, size, alignment, initiative, deathSaves, actions, savingThrows, skills, toolProficiencie, abilities, inventory, notes, languages, strTotalNumber, dexTotalNumber, conTotalNumber, intTotalNumber, wisTotalNumber, chaTotalNumber, } = playerData
-console.log(playerData)
 const [lock, setLock] = useState(true)
 const [count, setCount] = useState(0);
+
 
 
 
@@ -39,18 +39,35 @@ const rollTheDice = (max) => {
 
 
 
+const updateCharacter = async (docId, updatedData) => {
+  try {
+    if (!currentUser) {
+      console.error("User is not authenticated");
+      return;
+    }
 
+    // Get a reference to the document (the character you want to update)
+    const characterDocRef = doc(db, 'users', currentUser.uid, 'characters', docId);
 
-// skills, savingThrows, 
+    // Update the document with the updatedData (only updates the fields provided)
+    await updateDoc(characterDocRef, updatedData);
+
+    console.log("Character updated successfully");
+  } catch (error) {
+    console.error("Error updating character: ", error);
+  }
+};
+
 
   return (
     <div className='flex bg-slate-200/60 w-[90%] h-fit'> 
 
 
 <div className='flex flex-col w-full'>
- <div className='flex justify-center items-center text-center bg-white w-full h-[50px]'>
-    <h1 className='text-[1.3rem] italic ' >{name}</h1>
+ <div className='flex justify-between items-center text-center bg-white w-full h-[50px] p-3'>
+   <button onClick={() => {nextCharacter()}}>click</button> <h1 className='text-[1.3rem] italic ' >{name}</h1> <button onClick={() => {setEditMe(!editMe)}}>Edit</button>
  </div>
+
         <div className='bg-slate-200 w-full flex flex-col px-2 py-2'>
             <div className='flex'>
        <div className='flex flex-col flex-1'><div className='flex-1'>{classType}</div> <div className='flex-1 border border-black border-l-transparent border-r-transparent border-b-transparent italic text-[.8rem]'>Class</div> <div><div className='flex-1'>{race}</div> <div className='flex-1 border border-black border-l-transparent border-r-transparent border-b-transparent italic text-[.8rem]'>Race</div></div> </div>
@@ -265,7 +282,7 @@ const rollTheDice = (max) => {
 
 
 
-<BuildPlayer2 playerData={playerData} setPlayerData={setPlayerData}/>
+
 
 </div>
 

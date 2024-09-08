@@ -2,17 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 import CreatedChar from '../Components/CreatedChar';
-import BuildNewPlayer from '../Components/buildNewPlayer';
+import BuildNewPlayer from '../Components/BuildNewPlayer';
 import { collection, addDoc, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { db } from '../Firebase/firebase';
 import { useAuth } from '../Components/authFunctions/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { GameContext } from '../Components/GameContext'; // Import the context
+import { GameContext } from '../Components/GameContext';
 
 export default function CharacterSelection() {
 
-  
-
+  //player object used to prefill all the information that is mapped over
   const playerObject = {
     name: 'object player',
     lvl: 0,
@@ -36,7 +35,7 @@ export default function CharacterSelection() {
     wisTotalNumber: 12,
     chaTotalNumber: 8,
     gold: 10,
-    playerName: 'yourName',
+    playerName: 'your Name',
     background: 'folk Hero',
     size: 'medium',
     alignment: 'NG',
@@ -62,14 +61,8 @@ export default function CharacterSelection() {
     languages: ['language 1', 'language 2', 'language 3'],
   };
 
-  const addStaticClasses = (playerObject) => {
-    return {
-      ...playerObject,
-      staticClasses: staticClasses,
-    };
-  };
-
-  const { playerCharData, setPlayerCharData } = useContext(GameContext); // Use context
+  // use effects
+  const { playerCharData, setPlayerCharData } = useContext(GameContext); 
   const [divs, setDivs] = useState([]);
   const [build, setBuild] = useState(true);
   const [playerObjectState, setPlayerObjectState] = useState(playerObject);
@@ -78,8 +71,7 @@ export default function CharacterSelection() {
   const navigate = useNavigate();
 
 
-
-  // Function to get info
+  // Function to get info (holds all objects clear text)
   const fetchWords = async () => {
     try {
       if (currentUser) {
@@ -88,17 +80,20 @@ export default function CharacterSelection() {
           id: doc.id,
           ...doc.data(),
         }));
+        console.log(wordsArray)
         setFirebaseInfo(wordsArray);
       }
     } catch (e) {
       console.error('Error fetching documents: ', e);
     }
   };
-
+// update on change
   useEffect(() => {
     fetchWords();
   }, [currentUser]);
 
+
+  //when finish is clicked in buildNewPlayer it runs this function creating a new character in firebase
   const pushToDB = async (object) => {
     try {
       if (currentUser) {
@@ -112,13 +107,13 @@ export default function CharacterSelection() {
     }
   };
 
+  // delete a character by clicking on the trash icon 
   const handleDelete = async (id) => {
     try {
       if (!currentUser || !id) {
         console.error("User not authenticated or ID is undefined");
         return;
       }
-
       console.log(`Attempting to delete document with ID: ${id}`);
       const docRef = doc(db, 'users', currentUser.uid, 'characters', id);
       await deleteDoc(docRef);
@@ -129,35 +124,23 @@ export default function CharacterSelection() {
     }
   };
 
-  function addCharacter(name, lvl, classType, race) {
-    setDivs([
-      ...divs,
-      <CreatedChar
-        divs={divs}
-        setDivs={setDivs}
-        key={name + lvl} // Ensure unique key
-        name={name}
-        lvl={lvl}
-        classType={classType}
-        race={race}
-      />,
-    ]);
-  }
+
+
 
   const selectPlayer = async (id) => {
-    try {
-      const docRef = doc(db, 'users', currentUser.uid, 'characters', id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setPlayerCharData(docSnap.data());
-        navigate("/playgame", { state: { playerData: docSnap.data() } });
-      } else {
-        console.log('No such document!');
-      }
-    } catch (e) {
-      console.error('Error selecting player: ', e);
-    }
+    // setPlayerCharData(id)
+    localStorage.clear();
+    localStorage.setItem("ChosenCreature", JSON.stringify(id) )
+    // console.log("localStorage set")
+    navigate("/playgame");
   };
+
+  useEffect(() => {
+    console.log(playerCharData)
+  }, [playerCharData]);
+
+  
+  
 
   return (
     <div className="flex flex-col h-[700px] w-screen bg-blue-500">
@@ -167,12 +150,6 @@ export default function CharacterSelection() {
           <div className="flex w-full h-[70px] overflow-auto justify-between items-center p-4">
             <p>Create New Character</p>
             <div className='flex gap-1'>
-              <button
-                onClick={() => fetchWords()} // Refresh data without reloading
-                className="bg-sky-200 p-2 rounded"
-              >
-                <i className="fa-solid fa-arrows-rotate"></i>
-              </button>
               <button
                 onClick={() => setBuild(!build)}
                 className="bg-sky-200 p-2 rounded"
