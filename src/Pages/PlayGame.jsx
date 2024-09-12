@@ -3,10 +3,11 @@ import Header from '../Components/Header';
 import Player2ex from '../Components/Player2ex';
 import BuildPlayer2 from '../Components/BuildPlayer2';
 import { useAuth } from '../Components/authFunctions/AuthContext';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs,  updateDoc, doc, setDoc,  } from 'firebase/firestore';
 import { db } from '../Firebase/firebase';
 
 export default function PlayGame() {
+
   const { currentUser } = useAuth();
   const [editMe, setEditMe] = useState(true);
   const [firebaseInfo, setFirebaseInfo] = useState([]);
@@ -60,9 +61,11 @@ export default function PlayGame() {
     languages: ['language 1', 'language 2', 'language 3'],
   });
 
-  // localStorage attempt
+  // localStorage retrieval
   const localStorageData = JSON.parse(localStorage.getItem('ChosenCreature')) || null;
-  console.log("Local storage data:", localStorageData);
+  // console.log("Local storage data:", localStorageData);
+
+
 
   // Fetch all characters from Firebase
   const fetchWords = async () => {
@@ -101,16 +104,27 @@ export default function PlayGame() {
     }
   };
 
-  // Function to cycle to the next character
-  function nextCharacter() {
-    let list = firebaseInfo.length;
-    if (characterNumber < list - 1) {
-      setCharacterNumber(characterNumber + 1);
-    } else {
-      setCharacterNumber(0);
+  const saveChanges = async () => {
+    console.log("save changes ran")
+    try {
+      if (currentUser) {
+        // Reference to the character document in Firebase
+        const characterDocRef = doc(db, 'users', currentUser.uid, 'characters', localStorageData);
+        await setDoc(characterDocRef, playerData , { merge: true });
+        console.log('Character data overwritten successfully!');
+  
+      } else {
+        console.error('User is not authenticated');
+      }
+    } catch (error) {
+      console.error('Error updating character:', error);
     }
-  }
+  };
 
+
+
+
+  // use effects to update changes 
   useEffect(() => {
     fetchWords();
   }, [currentUser]);
@@ -121,13 +135,20 @@ export default function PlayGame() {
     }
   }, [firebaseInfo, localStorageData]);
 
+  useEffect(() => {
+    if (firebaseInfo.length > 0 && localStorageData) {
+      searchById(localStorageData);
+    }
+  }, [firebaseInfo, localStorageData]);
+
   return (
     <div className='flex flex-col h-screen w-screen bg'>
       <Header />
+     <button onClick={() => {addArray("abilities")}}>add</button>
       <div className='flex overflow-auto justify-center flex-wrap h-full items-center'>
         {editMe ? (
           <Player2ex
-            nextCharacter={nextCharacter}
+            saveChanges={saveChanges}
             editMe={editMe}
             setEditMe={setEditMe}
             playerData={playerData}

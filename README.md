@@ -24,6 +24,136 @@ retrieve the data from firebase db using the character unique id
 
 
 
+import React, { useEffect, useState } from 'react';
+// import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+// import { db } from '../Firebase/firebase';
+// import { useAuth } from '../Components/authFunctions/AuthContext';
+
+// export default function ListItem({ id, name, description, playerData }) {
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [editedName, setEditedName] = useState(name);  // Initialize with actual name
+//   const [editedDescription, setEditedDescription] = useState(description);  // Initialize with actual description
+//   const [allData, setAllData] = useState(playerData || {});  // Default to empty object if playerData is undefined
+//   const { currentUser } = useAuth();
+//   const storedUserName = localStorage.getItem('ChosenCreature');
+
+//   useEffect(() => {
+//     // Fetch user data if storedUserName and currentUser are available
+//     if (currentUser && storedUserName) {
+//       fetchUserDataByName();
+//     }
+//   }, [currentUser, storedUserName]);
+
+//   const fetchUserDataByName = async () => {
+//     console.log('Fetching user data...');
+//     try {
+//       const usersRef = collection(db, 'users', currentUser.uid, 'characters');
+//       const usersSnapshot = await getDocs(usersRef);
+//       const fetchedData = usersSnapshot.docs.map(doc => ({
+//         id: doc.id,
+//         ...doc.data(),
+//       }));
+//       console.log('Fetched data:', fetchedData);
+
+//       // Find and set the specific character based on storedUserName
+//       const character = fetchedData.find(item => item.id === storedUserName);
+//       setAllData(character || {});
+//     } catch (error) {
+//       console.error('Error fetching user data:', error);
+//     }
+//   };
+
+//   const saveChanges = async () => {
+//     console.log('saveChanges ran');
+//     try {
+//       if (currentUser) {
+//         // Reference to the character document in Firebase
+//         const characterDocRef = doc(db, 'users', currentUser.uid, 'characters', storedUserName);
+//         await setDoc(characterDocRef, allData, { merge: true });
+//         console.log('Character data overwritten successfully!');
+//       } else {
+//         console.error('User is not authenticated');
+//       }
+//     } catch (error) {
+//       console.error('Error updating character:', error);
+//     }
+//   };
+
+//   function changeEdit() {
+//     setIsEditing(!isEditing);
+//   }
+
+//   function overwriteData() {
+//     console.log('overwriteData ran');
+//     console.log(Array.isArray(allData.actions));  // Check if actions is an array
+//     console.log(allData);
+
+//     if (Array.isArray(allData.actions) && allData.actions.length > 0) {
+//       let newData = { id: allData.actions[0].id, description: editedDescription, action: editedName };
+//       allData.actions[0] = newData;
+//       setAllData({ ...allData, actions: [...allData.actions] });  // Create a new object reference
+//       console.log(newData);
+
+//       saveChanges();
+//       setIsEditing(false);  // Stop editing
+//     } else {
+//       console.error('Actions is not an array or is empty.');
+//     }
+//   }
+
+//   return (
+//     <div className='flex-col p-1'>
+//       <div className='flex w-full justify-between p-1'>
+//         {isEditing ? (
+//           <input
+//             type='text'
+//             value={editedName}
+//             onChange={(e) => setEditedName(e.target.value)}
+//           />
+//         ) : (
+//           <p className='font-bold'>{name}</p>
+//         )}
+//         <div>
+//           <button
+//             onClick={() =>
+//               window.open(
+//                 `https://www.google.com/search?q=d+and+d++${name}`,
+//                 '_blank',
+//                 'noopener,noreferrer'
+//               )
+//             }
+//             className='bg-slate-500'
+//           >
+//             help
+//           </button>
+//           {isEditing ? (
+//             <button onClick={overwriteData} className='bg-green-500'>
+//               save
+//             </button>
+//           ) : (
+//             <button onClick={changeEdit} className='bg-white'>
+//               edit
+//             </button>
+//           )}
+//         </div>
+//       </div>
+//       <div className='w-full h-fit'>
+//         {isEditing ? (
+//           <input
+//             type='text'
+//             value={editedDescription}
+//             onChange={(e) => setEditedDescription(e.target.value)}
+//           />
+//         ) : (
+//           <p className='italic'>{description}</p>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
 
 
 

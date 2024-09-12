@@ -3,14 +3,11 @@ import { useState, useEffect } from 'react'
 import BuildPlayer2 from './BuildPlayer2'
 import ListItem from './ListItem'
 
-export default function Player2ex({nextCharacter, editMe, setEditMe, playerData,setPlayerData}) {
+export default function Player2ex({ saveChanges, editMe, setEditMe, playerData,setPlayerData}) {
 
 const {name, roll, lvl, race, classType, hp, hpLeft, speed, ac, strTotal, dexTotal, conTotal, intTotal, wisTotal, chaTotal, gold, playerName,background, size, alignment, initiative, deathSaves, actions, savingThrows, skills, toolProficiencie, abilities, inventory, notes, languages, strTotalNumber, dexTotalNumber, conTotalNumber, intTotalNumber, wisTotalNumber, chaTotalNumber, } = playerData
 const [lock, setLock] = useState(true)
 const [count, setCount] = useState(0);
-
-
-
 
 
 
@@ -33,31 +30,16 @@ if (lock === false) {
 const rollTheDice = (max) => {
   let roll =  Math.floor(Math.random() * max) + 1
   setPlayerData({...playerData, roll:(roll)})
-
 }
 
 
-
-
-const updateCharacter = async (docId, updatedData) => {
-  try {
-    if (!currentUser) {
-      console.error("User is not authenticated");
-      return;
-    }
-
-    // Get a reference to the document (the character you want to update)
-    const characterDocRef = doc(db, 'users', currentUser.uid, 'characters', docId);
-
-    // Update the document with the updatedData (only updates the fields provided)
-    await updateDoc(characterDocRef, updatedData);
-
-    console.log("Character updated successfully");
-  } catch (error) {
-    console.error("Error updating character: ", error);
-  }
-};
-
+function savingThrowEdit(arr, place, value) {
+  setPlayerData({...playerData, place: arr  })
+  // Return the modified array
+  console.log(playerData)
+  saveChanges()
+  // {incrementFirstNumber(savingThrows, 0, 1)}} 
+}
 
   return (
     <div className='flex bg-slate-200/60 w-[90%] h-fit'> 
@@ -65,7 +47,7 @@ const updateCharacter = async (docId, updatedData) => {
 
 <div className='flex flex-col w-full'>
  <div className='flex justify-between items-center text-center bg-white w-full h-[50px] p-3'>
-   <button onClick={() => {nextCharacter()}}>click</button> <h1 className='text-[1.3rem] italic ' >{name}</h1> <button onClick={() => {setEditMe(!editMe)}}>Edit</button>
+   <button onClick={ () => {saveChanges()}} className='bg-slate-300 p-1 rounded'>Save</button> <h1 className='text-[1.3rem] italic ' >{name}</h1> <button className='bg-slate-300 p-1 rounded' onClick={() => {setEditMe(!editMe)}}>Edit</button>
  </div>
 
         <div className='bg-slate-200 w-full flex flex-col px-2 py-2'>
@@ -103,11 +85,8 @@ const updateCharacter = async (docId, updatedData) => {
       </div>
       </div>
     
+  <div className='flex justify-evenly items-center flex-1'>  
     
-    
-      <div className='flex justify-evenly items-center flex-1'>
-    
-     
       <div className='text-center bg-slate-200 h-fit w-[60px] rounded p-1'>
         <div className='font-bold text-[.5rem]' >Intelligence</div>
         <div onClick={() => {rollTheDice(intTotal)}} className=' h-[24px]  bg-sky-200' >{intTotal}</div>
@@ -178,7 +157,7 @@ const updateCharacter = async (docId, updatedData) => {
 <div className='flex flex-col h-fit'>
 <div>
       {actions.map((item) => (
-        <ListItem key={item.id} name={item.action} description={item.description} />
+        <ListItem playerData={playerData} id={item.id} key={item.action} name={item.action} description={item.description} />
       ))}
     </div>
 
@@ -244,9 +223,9 @@ const updateCharacter = async (docId, updatedData) => {
 <div>
 <div className='flex bg-slate-400 justify-center'><h3>Abilities</h3></div>
 <div>
-{abilities.map((item) => (
-        <ListItem key={item.id} name={item.action} description={item.description} />
-      ))}
+{/* {abilities.map((item) => (
+        <ListItem  key={item.id} name={item.action} description={item.description} />
+      ))} */}
 </div>
 </div>
 

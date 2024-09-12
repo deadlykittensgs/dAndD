@@ -80,7 +80,7 @@ export default function CharacterSelection() {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(wordsArray)
+        // console.log(wordsArray)
         setFirebaseInfo(wordsArray);
       }
     } catch (e) {
@@ -138,9 +138,6 @@ export default function CharacterSelection() {
   useEffect(() => {
     console.log(playerCharData)
   }, [playerCharData]);
-
-  
-  
 
   return (
     <div className="flex flex-col h-[700px] w-screen bg-blue-500">

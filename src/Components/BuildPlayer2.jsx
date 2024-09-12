@@ -17,12 +17,8 @@ export default function BuildPlayer2({setEditMe, editMe, playerData, setPlayerDa
      
     const addInfoToArray = (e) => {
         e.preventDefault()
-        
     }
     
-
-
-
 
 
   return (
