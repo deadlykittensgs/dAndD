@@ -28,6 +28,6 @@ const userSignOut = () => {
 
 
   return (
-    <div className=' flex overflow-auto text-center bg-slate-500 p-1 w-[50px]'>{authUser ? (<p>{`Signed in as ${authUser.email, authUser.uid }`} <button onClick={userSignOut} >Sign Out</button></p>) : (<p> Signed Out</p>)}</div>
+    <div className=' flex overflow-auto text-center bg-slate-500 p-1 w-[50px] h-[50px]'>{authUser ? (<p>{`Signed in as ${authUser.email, authUser.uid }`} <button onClick={userSignOut} >Sign Out</button></p>) : (<p> Signed Out</p>)}</div>
   )
 }

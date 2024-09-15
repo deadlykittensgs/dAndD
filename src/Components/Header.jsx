@@ -3,7 +3,7 @@ import AuthDetails from "../Components/authFunctions/authDetails"
 
 export default function Header() {
   return (
-    <div className='graybg text-white h-[50px] w-screen flex justify-evenly items-center gap-3 text-[.5rem]' >
+    <div className='graybg text-white h-[70px] w-screen flex justify-evenly items-center gap-3 text-[.5rem]' >
 
       <AuthDetails/>
     <a  href='home' >Home</a>

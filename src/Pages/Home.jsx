@@ -1,17 +1,16 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Header from '../Components/Header'
 import Footer from '../Components/Footer'
 import { useAuth } from '../contexts/authContext/Index';
 import CreateAccount from "../Components/authFunctions/CreateAccount"
 import Login from "../Components/authFunctions/Login"
+import { useNavigate } from 'react-router-dom';
 
   
 
 
 
 export default function Home() {
-
-
     // sign in 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -19,6 +18,25 @@ export default function Home() {
     const [errorMessage, setErrorMessage] = useState('')
     const [hasAccount, setHasAccount] = useState(true)
     const [count, setCount] = useState(0);
+    const hasLoggedIn = useAuth()
+    const userId = hasLoggedIn; 
+    const navigate = useNavigate();
+  
+
+    useEffect(() => {
+        if (!userId === null) {
+          navigate('/charecterselection'); // Redirects to the desired page if user ID is available
+        }
+      }, []);
+
+    useEffect(() => {
+      if (!userId === null) {
+        navigate('/charecterselection'); // Redirects to the desired page if user ID is available
+      }
+    }, [userId, navigate]);
+
+
+
 
 function rollDice(min, max) {
     let roll = Math.floor(Math.random() * (max - min + 1)) + min;
